@@ -2,6 +2,10 @@
 
 Servo myServo; 
 
+bool firstSectionCrossed = false;
+bool secondSectionCrossed = false;
+bool thirdSectionCrossed = false;
+
 void setup() {
   Serial.begin(9600);
   Serial.println("Ender Eradicators!");
@@ -12,18 +16,28 @@ void setup() {
 }
 
 void loop() {
-  for (int pos = 0; pos <= 180; pos += 1) { 
-    Serial.print("Setting pos as: ");
-    Serial.print(pos);
-    Serial.println();
-    myServo.write(pos);
-    delay(200);                       // Waits 15ms 
+
+  if (digitalRead(8) == 1) {
+    firstSectionCrossed = true;
   }
-  for (int pos = 180; pos >= 0; pos -= 1) {
-    Serial.print("Setting pos as: ");
-    Serial.print(pos);
-    Serial.println();
-    myServo.write(pos);             
-    delay(200);                      
+
+  if (firstSectionCrossed) {
+    Serial.println("First section crossed!");
+
+    if (digitalRead(7) == 1) {
+      secondSectionCrossed = true;
+    }
+
+      if (secondSectionCrossed) {
+      Serial.println("Second section crossed!");
+
+        if (digitalRead(4) == 1) {
+          thirdSectionCrossed = true;
+        }
+
+        if (thirdSectionCrossed) {
+        Serial.println("Third section crossed!");
+      }
+    }
   }
 }
