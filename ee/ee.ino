@@ -1,6 +1,6 @@
 #include <Servo.h>
 
-Servo firstServoObject, secondServoObject, thirdServoObject, fourthServoObject; 
+Servo firstServoObject, secondServoObject, thirdServoObject, fourthServoObject, fifthServoObject; 
 
 bool firstSectionCrossed = false;
 bool secondSectionCrossed = false;
@@ -25,16 +25,18 @@ void setup() {
   Serial.println("Ender Eradicators!");
 
   delay(500);
-  firstServoObject.write(145);
+  firstServoObject.write(0);
   secondServoObject.write(0);
-  thirdServoObject.write(140);
+  thirdServoObject.write(145);
   fourthServoObject.write(100);
+  fifthServoObject.write(0);
 
   // todo - set pin mode 
   firstServoObject.attach(9); //digital pin 9
   secondServoObject.attach(5);
   thirdServoObject.attach(5);
   fourthServoObject.attach(3);
+  fifthServoObject.attach(12);
   delay(2000);
   // sweepServos();
 
@@ -45,8 +47,10 @@ void retractEnderman() {
   // bring up enderman cutout
 
   // TODO - this probably wont use the full 180 ROM
-  for (int pos = 0; pos <= 45; pos += 1) {
+  for (int pos = 0; pos <= 85; pos += 1) {
+    // delay(100);
     Serial.print("Bringing up enderman at pos: ");
+    // delay(200);
     Serial.print(pos);
     Serial.println();
     firstServoObject.write(pos);
@@ -55,13 +59,14 @@ void retractEnderman() {
   delay(1000);
   Serial.println("Waiting....");
 
-  for (int pos = 45; pos >= 0; pos -= 1) {
+  for (int pos = 85; pos >= 0; pos -= 1) {
+    // delay(100);
     Serial.print("Retracting up enderman at pos: ");
     Serial.print(pos);
     Serial.println();
     firstServoObject.write(pos);
-
   }
+  delay(500);
 }
 
 void activateFirstTrapdoor() {
@@ -139,6 +144,27 @@ void activateEnderTrapDoor() {
     firstServoObject.write(pos);
   }
   delay(500);
+}
+
+void killEnderDragon() {
+    for (int pos = 0; pos <= 85; pos += 1) {
+    // delay(100);
+    Serial.print("Bringing up enderman at pos: ");
+    // delay(200);
+    Serial.print(pos);
+    Serial.println();
+    firstServoObject.write(pos);
+  }
+
+  delay(1000);
+  Serial.println("Waiting....");
+
+  for (int pos = 85; pos >= 0; pos -= 1) {
+    // delay(100);
+    Serial.print("Retracting up enderman at pos: ");
+    Serial.print(pos);
+    Serial.println();
+    firstServoObject.write(pos);
 }
 
 void loop() {
