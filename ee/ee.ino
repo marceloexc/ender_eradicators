@@ -1,6 +1,6 @@
 #include <Servo.h>
 
-Servo firstServoObject, secondServoObject, thirdServoObject; 
+Servo firstServoObject, secondServoObject, thirdServoObject, fourthServoObject; 
 
 bool firstSectionCrossed = false;
 bool secondSectionCrossed = false;
@@ -20,9 +20,6 @@ bool section2Done = false;
 bool section3Done = false;
 bool section4Done = false;
 
-
-
-
 void setup() {
   Serial.begin(19200);
   Serial.println("Ender Eradicators!");
@@ -40,28 +37,6 @@ void setup() {
   delay(2000);
   // sweepServos();
 
-// void sweepServos() {
-  // this is necessary because some of the d
-// }
-
-void sweepServos() {
-  // the reason we do this is because there can be instances in which 
-  // the servos are close to their limit when stopped.
-  // for instance, if a servo is started in the game with a position of 
-  // 110, and it is meant to a ROM of 180 degrees, then it hits its limit
-  // early on.
-  
-  for (int pos = 0; pos >= 180; pos++) {
-    firstServoObject.write(pos);
-    secondServoObject.write(pos);
-    thirdServoObject.write(pos);
-  }
-
-    for (int pos = 180; pos = 0; pos--) {
-    firstServoObject.write(pos);
-    secondServoObject.write(pos);
-    thirdServoObject.write(pos);
-  }
 }
 
 void retractEnderman() {
@@ -140,13 +115,7 @@ void activateEnderDoor() {
 
 void loop() {
   // Check section 1
-  currentState1 = digitalRead(8);
-  if (currentState1 != previousState1 && !section1Done) {
-    Serial.println("First section crossed");
-    retractEnderman();
-    section1Done = true;
-    previousState1 = currentState1;
-  }
+  retractEnderman();
 
   // Check section 2 if section 1 is done
   if (section1Done) {
