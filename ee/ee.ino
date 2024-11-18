@@ -27,12 +27,18 @@ void setup() {
   Serial.begin(19200);
   Serial.println("Ender Eradicators!");
 
+  delay(500);
+  firstServoObject.write(0);
+  secondServoObject.write(0);
+  fourthServoObject.write(100);
 
   // todo - set pin mode 
   firstServoObject.attach(9); //digital pin 9
   secondServoObject.attach(5);
   thirdServoObject.attach(5);
-}
+  fourthServoObject.attach(3);
+  delay(2000);
+  // sweepServos();
 
 // void sweepServos() {
   // this is necessary because some of the d
@@ -85,23 +91,51 @@ void retractEnderman() {
 void activateFirstTrapdoor() {
 
   // trapdoor into the mines
-  for (int pos = 0; pos <= 45; pos += 1) {
+  for (int pos = 0; pos <= 95; pos += 1) {
+    // delay(100);
     Serial.print("Bringing up enderman at pos: ");
+    // delay(200);
     Serial.print(pos);
     Serial.println();
-    secondServoObject.write(pos);
+    firstServoObject.write(pos);
   }
+
+  // delay(1000);
+  // Serial.println("Waiting....");
+
+  // for (int pos = 95; pos >= 0; pos -= 1) {
+  //   // delay(100);
+  //   Serial.print("Retracting up enderman at pos: ");
+  //   Serial.print(pos);
+  //   Serial.println();
+  //   firstServoObject.write(pos);
+  // }
+  // delay(500);
 }
 
 void activateEnderDoor() {
 
   // this is meant to be the sliding door that leads the player into the end dimension
-  for (int pos = 0; pos <= 180; pos++) {
+  for (int pos = 100; pos >= 10; pos -= 1) {
+    // delay(100);
     Serial.print("Bringing up enderman at pos: ");
+    // delay(200);
     Serial.print(pos);
     Serial.println();
-    thirdServoObject.write(pos);
+    firstServoObject.write(pos);
   }
+
+  delay(1000);
+  Serial.println("Waiting....");
+
+  for (int pos = 10; pos <= 100; pos += 1) {
+    // delay(100);
+    Serial.print("Retracting up enderman at pos: ");
+    Serial.print(pos);
+    Serial.println();
+    firstServoObject.write(pos);
+  }
+  delay(500);
 }
 
 void loop() {
