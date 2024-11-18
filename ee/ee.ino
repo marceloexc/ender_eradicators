@@ -1,6 +1,6 @@
 #include <Servo.h>
 
-Servo firstServoObject, secondServoObject, thirdServoObject; 
+Servo firstServoObject, secondServoObject, thirdServoObject, fourthServoObject; 
 
 bool firstSectionCrossed = false;
 bool secondSectionCrossed = false;
@@ -20,42 +20,23 @@ bool section2Done = false;
 bool section3Done = false;
 bool section4Done = false;
 
-
-
-
 void setup() {
   Serial.begin(19200);
   Serial.println("Ender Eradicators!");
 
+  delay(500);
+  firstServoObject.write(0);
+  secondServoObject.write(0);
+  fourthServoObject.write(100);
 
   // todo - set pin mode 
   firstServoObject.attach(9); //digital pin 9
   secondServoObject.attach(5);
   thirdServoObject.attach(5);
-}
+  fourthServoObject.attach(3);
+  delay(2000);
+  // sweepServos();
 
-// void sweepServos() {
-  // this is necessary because some of the d
-// }
-
-void sweepServos() {
-  // the reason we do this is because there can be instances in which 
-  // the servos are close to their limit when stopped.
-  // for instance, if a servo is started in the game with a position of 
-  // 110, and it is meant to a ROM of 180 degrees, then it hits its limit
-  // early on.
-  
-  for (int pos = 0; pos >= 180; pos++) {
-    firstServoObject.write(pos);
-    secondServoObject.write(pos);
-    thirdServoObject.write(pos);
-  }
-
-    for (int pos = 180; pos = 0; pos--) {
-    firstServoObject.write(pos);
-    secondServoObject.write(pos);
-    thirdServoObject.write(pos);
-  }
 }
 
 void retractEnderman() {
@@ -85,34 +66,56 @@ void retractEnderman() {
 void activateFirstTrapdoor() {
 
   // trapdoor into the mines
-  for (int pos = 0; pos <= 45; pos += 1) {
+  for (int pos = 0; pos <= 95; pos += 1) {
+    // delay(100);
     Serial.print("Bringing up enderman at pos: ");
+    // delay(200);
     Serial.print(pos);
     Serial.println();
-    secondServoObject.write(pos);
+    firstServoObject.write(pos);
   }
+
+  // delay(1000);
+  // Serial.println("Waiting....");
+
+  // for (int pos = 95; pos >= 0; pos -= 1) {
+  //   // delay(100);
+  //   Serial.print("Retracting up enderman at pos: ");
+  //   Serial.print(pos);
+  //   Serial.println();
+  //   firstServoObject.write(pos);
+  // }
+  // delay(500);
 }
 
 void activateEnderDoor() {
 
   // this is meant to be the sliding door that leads the player into the end dimension
-  for (int pos = 0; pos <= 180; pos++) {
+  for (int pos = 100; pos >= 10; pos -= 1) {
+    // delay(100);
     Serial.print("Bringing up enderman at pos: ");
+    // delay(200);
     Serial.print(pos);
     Serial.println();
-    thirdServoObject.write(pos);
+    firstServoObject.write(pos);
   }
+
+  delay(1000);
+  Serial.println("Waiting....");
+
+  for (int pos = 10; pos <= 100; pos += 1) {
+    // delay(100);
+    Serial.print("Retracting up enderman at pos: ");
+    Serial.print(pos);
+    Serial.println();
+    firstServoObject.write(pos);
+  }
+  delay(500);
 }
 
 void loop() {
   // Check section 1
-  currentState1 = digitalRead(8);
-  if (currentState1 != previousState1 && !section1Done) {
-    Serial.println("First section crossed");
-    retractEnderman();
-    section1Done = true;
-    previousState1 = currentState1;
-  }
+  retractEnderman();
 
   // Check section 2 if section 1 is done
   if (section1Done) {
