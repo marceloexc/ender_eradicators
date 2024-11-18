@@ -21,12 +21,13 @@ bool section3Done = false;
 bool section4Done = false;
 
 void setup() {
-  Serial.begin(19200);
+  Serial.begin(9600);
   Serial.println("Ender Eradicators!");
 
   delay(500);
-  firstServoObject.write(0);
+  firstServoObject.write(145);
   secondServoObject.write(0);
+  thirdServoObject.write(140);
   fourthServoObject.write(100);
 
   // todo - set pin mode 
@@ -88,7 +89,34 @@ void activateFirstTrapdoor() {
   // delay(500);
 }
 
-void activateEnderDoor() {
+void slideEnderDoor() {
+
+  // bring up enderman cutout
+
+  // TODO - this probably wont use the full 180 ROM
+  for (int pos = 145; pos >= 50; pos -= 1) {
+    // delay(100);
+    Serial.print("Bringing up enderman at pos: ");
+    // delay(200);
+    Serial.print(pos);
+    Serial.println();
+    firstServoObject.write(pos);
+  }
+
+  delay(1000);
+  Serial.println("Waiting....");
+
+  for (int pos = 50; pos <= 145; pos += 1) {
+    // delay(100);
+    Serial.print("Retracting up enderman at pos: ");
+    Serial.print(pos);
+    Serial.println();
+    firstServoObject.write(pos);
+  }
+  delay(500);
+}
+
+void activateEnderTrapDoor() {
 
   // this is meant to be the sliding door that leads the player into the end dimension
   for (int pos = 100; pos >= 10; pos -= 1) {
